@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>报告汇总 — 市场 ETF 穿透分析</title>
+    <meta name="description" content="汇总 ETF 穿透个股发布的公告与定期报告，按时间倒序排列，可直接查看原文">
+
+    <script>(function(){try{var t=localStorage.getItem('nt-theme');document.documentElement.setAttribute('data-theme',(t==='dark'||t==='light')?t:'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script>window.NT_BASE = "/";</script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/core.js"></script>
+    <script src="/js/components.js"></script>
+
+
+<script src="/js/static-shim.js"></script></head>
+<body>
+<div class="app-container">
+<header class="header">
+    <div class="header-title">
+        <span class="icon">📄</span>
+        <div>
+            <h1>ETF 穿透 · 报告汇总</h1>
+            <span id="reportMeta" class="header-subtitle">报告数据加载中...</span>
+        </div>
+    </div>
+    <div class="header-meta">
+<nav class="nav-links" data-theme-slot>
+    <a href="/" class="nav-link">🏠 首页</a>
+    <a href="/dashboard" class="nav-link">🧺 ETF</a>
+    <a href="/stocks" class="nav-link">🔍 个股</a>
+    <a href="/futures" class="nav-link">🛢️ 期货</a>
+    <a href="/gold" class="nav-link">🥇 黄金</a>
+    <a href="/fx" class="nav-link">💱 汇率</a>
+    <a href="/market" class="nav-link">🌐 市场分析</a>
+    <a href="/reports" class="nav-link active">📄 报告汇总</a>
+</nav>    </div>
+</header>
+
+<section class="stat-grid">    <div class="stat-card">
+    <div class="stat-label">报告总数</div>
+    <div class="stat-value" id="statTotal">-</div>
+    <div class="stat-sub">穿透个股发布的公告</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">覆盖个股</div>
+    <div class="stat-value" id="statStocks">-<small>只</small></div>
+    <div class="stat-sub">有公告记录的穿透个股</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">近 30 天新增</div>
+    <div class="stat-value" id="statRecent">-</div>
+    <div class="stat-sub">最新公告持续更新</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">最新报告日期</div>
+    <div class="stat-value" id="statLatest">-</div>
+    <div class="stat-sub">数据每日增量采集</div>
+</div>
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">📋</span>报告明细</div>
+        
+    </div>
+    <div class="filter-bar">
+    <div class="search-box">
+        <span class="icon">🔎</span>
+        <input type="text" id="searchInput" placeholder="搜索代码、名称或标题关键词...">
+    </div>
+    <button class="chip active" data-days="0">全部时间</button>
+    <button class="chip" data-days="30">近 30 天</button>
+    <button class="chip" data-days="90">近 90 天</button>
+    <button class="chip" data-days="365">近 1 年</button>
+    <span class="filter-meta" id="filterMeta">-</span>
+</div>
+
+<div class="filter-bar" id="groupBar">
+    <button class="chip active" data-group="all">全部类型</button>
+    <button class="chip" data-group="定期报告">📑 定期报告</button>
+    <button class="chip" data-group="业绩">📊 业绩</button>
+    <button class="chip" data-group="分红送配">💰 分红送配</button>
+    <button class="chip" data-group="股东股权">👥 股东股权</button>
+    <button class="chip" data-group="融资并购">🏦 融资并购</button>
+    <button class="chip" data-group="治理会议">🏛️ 治理会议</button>
+    <button class="chip" data-group="其他">📌 其他</button>
+</div>
+
+<div class="table-wrapper">
+    <table id="reportTable">
+        <thead>
+            <tr>
+                <th data-sort="notice_date">发布日期</th>
+                <th data-sort="stock_code">代码</th>
+                <th data-sort="stock_name">名称</th>
+                <th data-sort="category_group">类型</th>
+                <th>报告标题</th>
+                <th>原文</th>
+            </tr>
+        </thead>
+        <tbody id="reportTableBody"><tr><td colspan="6" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+    </table>
+</div>
+
+<div class="pager">
+    <button id="prevPage" disabled>← 上一页</button>
+    <span class="page-info" id="pageInfo">- / -</span>
+    <button id="nextPage" disabled>下一页 →</button>
+</div>
+
+<div class="card-note"><b>数据来源</b>：东方财富公告中心，采集范围为已穿透到的汪汪队 ETF 成分股，每只保留最近 50 条公告。
+<br>
+<b>查看原文</b>：点击标题或「PDF」直接打开公告原文；「详情」跳转东方财富公告页。
+<br>
+<b>类型归并</b>：交易所原始公告类型有上百种，这里按关键词归并为 7 组，便于筛选定期报告与重大事项。
+</div>
+</section>
+
+<footer class="site-footer">
+    <span>数据来源：上交所 · 深交所 · 东方财富</span>
+    <span class="footer-dot">·</span>
+    <span>市场数据，汪汪队/机构为分析维度</span>
+    <span class="footer-dot">·</span>
+    <span>仅供研究参考，不构成投资建议</span>
+</footer></div>
+
+<script src="/js/reports.js"></script></body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>市场分析 — 跨资产资金联动</title>
+    <meta name="description" content="股票、ETF、指数、期货、黄金、汇率的跨资产相关性、领先滞后与资金流向分析">
+
+    <script>(function(){try{var t=localStorage.getItem('nt-theme');document.documentElement.setAttribute('data-theme',(t==='dark'||t==='light')?t:'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script>window.NT_BASE = "/";</script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/core.js"></script>
+    <script src="/js/components.js"></script>
+
+    <script src="/js/vendor/echarts.min.js"></script>
+    <script>window.echarts || document.write('<script src="https://unpkg.com/echarts@5.5.1/dist/echarts.min.js"><\/script>');</script>
+
+<script src="/js/static-shim.js"></script></head>
+<body>
+<div class="app-container">
+<header class="header">
+    <div class="header-title">
+        <span class="icon">🌐</span>
+        <div>
+            <h1>市场分析 · 资金联动</h1>
+            <span id="asOf" class="header-subtitle">数据加载中...</span>
+        </div>
+    </div>
+    <div class="header-meta">
+<nav class="nav-links" data-theme-slot>
+    <a href="/" class="nav-link">🏠 首页</a>
+    <a href="/dashboard" class="nav-link">🧺 ETF</a>
+    <a href="/stocks" class="nav-link">🔍 个股</a>
+    <a href="/futures" class="nav-link">🛢️ 期货</a>
+    <a href="/gold" class="nav-link">🥇 黄金</a>
+    <a href="/fx" class="nav-link">💱 汇率</a>
+    <a href="/market" class="nav-link active">🌐 市场分析</a>
+    <a href="/reports" class="nav-link">📄 报告汇总</a>
+</nav>    </div>
+</header>
+
+<section class="stat-grid" id="statGrid">    <div class="stat-card">
+    <div class="stat-label">跟踪标的</div>
+    <div class="stat-value" id="statTotal">-</div>
+    <div class="stat-sub">6 类资产</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">上涨 / 下跌</div>
+    <div class="stat-value" id="statUpDown">-</div>
+    <div class="stat-sub">最新交易日</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">成交额</div>
+    <div class="stat-value" id="statAmount">-<small>亿元</small></div>
+    <div class="stat-sub">股票 + ETF + 期货</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">联动标的</div>
+    <div class="stat-value" id="statLink">-</div>
+    <div class="stat-sub">参与相关性计算</div>
+</div>
+</section>
+<section class="class-grid" id="classGrid"></section>
+
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">📊</span>多资产行情</div>
+<div class="header-meta"><span id="boardMeta">-</span></div>        
+    </div>
+    <div class="filter-bar">
+    <div class="search-box">
+        <span class="icon">🔎</span>
+        <input type="text" id="boardSearch" placeholder="搜索代码或名称...">
+    </div>
+    <div class="chip-group" id="classFilter">
+        <button class="chip active" data-class="">全部</button>
+        <button class="chip" data-class="index">指数</button>
+        <button class="chip" data-class="etf">ETF</button>
+        <button class="chip" data-class="equity">股票</button>
+        <button class="chip" data-class="futures">期货</button>
+        <button class="chip" data-class="gold">黄金</button>
+        <button class="chip" data-class="fx">汇率</button>
+    </div>
+</div>
+<div class="table-wrapper">
+    <table id="boardTable">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>类别</th>
+                <th class="num">最新价</th>
+                <th class="num">涨跌幅</th>
+                <th class="num">成交额</th>
+                <th class="num">持仓量</th>
+                <th>行情时间</th>
+            </tr>
+        </thead>
+        <tbody id="boardBody"><tr><td colspan="7" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+    </table>
+</div>
+<div class="pager">
+    <button id="prevPage" disabled>← 上一页</button>
+    <span class="page-info" id="pageInfo">- / -</span>
+    <button id="nextPage" disabled>下一页 →</button>
+</div>
+<div class="card-note"><b>口径</b>：涨跌幅按「最新价 / 昨收」计算；期货用<b>昨结算价</b>为基准（期货昨收恒为 0）。
+成交额单位统一为元，前端按亿显示；期货与汇率没有成交额字段，显示 <code>—</code>。
+</div>
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🔥</span>跨资产相关性</div>
+<div class="header-meta"><span id="corrMeta">-</span></div>        <div class="time-selector" id="rangePicker">
+    <button class="time-btn" data-window="30">30日</button>
+    <button class="time-btn active" data-window="60">60日</button>
+    <button class="time-btn" data-window="120">120日</button>
+</div>
+    </div>
+    <div class="chart-container" id="corrChart"><div class="loading-overlay"><div class="spinner"></div>计算相关性...</div></div>
+<div class="card-note">用<b>日收益率</b>而不是价格算 Pearson 相关系数——价格带趋势，直接算会得到一片假的高相关。
+颜色越红越同向，越蓝越反向；灰色是样本不足。
+</div>
+</section>
+<section class="chart-row">
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🔗</span>最强联动组合</div>
+<div class="header-meta"><span id="pairMeta">-</span></div>        
+    </div>
+        <div class="filter-bar">
+        <button class="chip active" id="chipCross">只看跨资产</button>
+        <span class="filter-meta" id="pairFilterMeta">-</span>
+    </div>
+    <div class="table-wrapper">
+        <table id="pairTable">
+            <thead>
+                <tr>
+                    <th>资产 A</th>
+                    <th>资产 B</th>
+                    <th class="num">相关系数</th>
+                    <th>关系</th>
+                    <th>领先 / 滞后</th>
+                </tr>
+            </thead>
+            <tbody id="pairBody"><tr><td colspan="5" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+        </table>
+    </div>
+
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">⏱️</span>谁在领跑</div>
+<div class="header-meta"><span id="leaderMeta">-</span></div>        
+    </div>
+        <div class="table-wrapper">
+        <table id="leaderTable">
+            <thead>
+                <tr>
+                    <th>标的</th>
+                    <th>类别</th>
+                    <th class="num">平均领先(天)</th>
+                </tr>
+            </thead>
+            <tbody id="leaderBody"><tr><td colspan="3" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+        </table>
+    </div>
+<div class="card-note">    正数表示该标的平均<b>领先</b>其他资产，负数表示<b>滞后</b>。
+    领先项往往是资金调仓的起点，滞后项更像被动跟涨跌。
+</div>
+</section></section>
+
+<section class="chart-row">
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">💧</span>ETF 资金净流入</div>
+<div class="header-meta"><span id="flowMeta">-</span></div>        
+    </div>
+        <div class="chart-container-sm" id="flowChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+<div class="card-note">    净流入 ≈ <b>份额变化 × 净值</b>。份额是 T+1 披露的真实申赎，比成交量更能说明钱在往哪走。
+</div>
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🛡️</span>汪汪队 ETF 维度对比</div>
+<div class="header-meta"><span id="themeCompareMeta">-</span></div>        
+    </div>
+        <div class="chart-container-sm" id="themeCompareChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+<div class="card-note">    将市场 ETF 按<b>汪汪队标签</b>分组，对比汪汪队 ETF 与其他 ETF 的份额变化、资金流向。
+    汪汪队 ETF 指十大持有人中出现汇金/证金等维稳资金的 ETF。
+</div>
+</section></section>
+
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🔄</span>资产类别轮动</div>
+<div class="header-meta"><span id="rotMeta">-</span></div>        
+    </div>
+    <div class="table-wrapper">
+    <table id="rotTable">
+        <thead>
+            <tr>
+                <th>资产类别</th>
+                <th class="num">标的数</th>
+                <th class="num">区间涨跌</th>
+                <th class="num">区间净流入</th>
+            </tr>
+        </thead>
+        <tbody id="rotBody"><tr><td colspan="4" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+    </table>
+</div>
+
+</section>
+<div class="card-note"><b>联动怎么算</b>：先把各标的日线转成日收益率，按交易日对齐后两两求 Pearson 相关系数；
+再对每对做 ±N 天互相关，取绝对值最大的滞后作为「领先/滞后」。
+参与计算的标的收敛到 40 个左右（指数全量 + 期货按成交额取头部 + 主要汇率 + 规模最大的 ETF 与个股），
+市场三千个标的两两相关既算不动，也看不出结论。
+</div>
+
+<footer class="site-footer">
+    <span>数据来源：上交所 · 深交所 · 东方财富</span>
+    <span class="footer-dot">·</span>
+    <span>市场数据，汪汪队/机构为分析维度</span>
+    <span class="footer-dot">·</span>
+    <span>仅供研究参考，不构成投资建议</span>
+</footer></div>
+
+<script src="/js/market.js"></script></body>
+</html>

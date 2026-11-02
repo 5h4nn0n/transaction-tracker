@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贵金属行情</title>
+    <meta name="description" content="黄金、白银主力连续行情与走势">
+
+    <script>(function(){try{var t=localStorage.getItem('nt-theme');document.documentElement.setAttribute('data-theme',(t==='dark'||t==='light')?t:'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script>window.NT_BASE = "/";</script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/core.js"></script>
+    <script src="/js/components.js"></script>
+
+    <script src="/js/vendor/echarts.min.js"></script>
+    <script>window.echarts || document.write('<script src="https://unpkg.com/echarts@5.5.1/dist/echarts.min.js"><\/script>');</script>
+
+<script src="/js/static-shim.js"></script></head>
+<body>
+<div class="app-container">
+<header class="header">
+    <div class="header-title">
+        <span class="icon">🥇</span>
+        <div>
+            <h1>贵金属行情</h1>
+            <span id="asOf" class="header-subtitle">数据加载中...</span>
+        </div>
+    </div>
+    <div class="header-meta">
+<nav class="nav-links" data-theme-slot>
+    <a href="/" class="nav-link">🏠 首页</a>
+    <a href="/dashboard" class="nav-link">🧺 ETF</a>
+    <a href="/stocks" class="nav-link">🔍 个股</a>
+    <a href="/futures" class="nav-link">🛢️ 期货</a>
+    <a href="/gold" class="nav-link active">🥇 黄金</a>
+    <a href="/fx" class="nav-link">💱 汇率</a>
+    <a href="/market" class="nav-link">🌐 市场分析</a>
+    <a href="/reports" class="nav-link">📄 报告汇总</a>
+</nav>    </div>
+</header>
+
+<section class="stat-grid" id="statGrid">    <div class="stat-card">
+    <div class="stat-label">跟踪标的</div>
+    <div class="stat-value" id="statTotal">-</div>
+    <div class="stat-sub">贵金属行情</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">上涨 / 下跌</div>
+    <div class="stat-value" id="statUpDown">-</div>
+    <div class="stat-sub">最新交易日</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">平均涨跌</div>
+    <div class="stat-value" id="statAvg">-</div>
+    <div class="stat-sub">算数平均</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">成交额</div>
+    <div class="stat-value" id="statAmount">-<small>亿元</small></div>
+    <div class="stat-sub"></div>
+</div>
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🥇</span>贵金属行情明细</div>
+<div class="header-meta"><span id="boardMeta">-</span></div>        
+    </div>
+    <div class="filter-bar">
+    <div class="search-box">
+        <span class="icon">🔎</span>
+        <input type="text" id="boardSearch" placeholder="搜索代码或名称...">
+    </div>
+</div>
+<div class="table-wrapper">
+    <table id="boardTable">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th class="num">最新价</th>
+                <th class="num">涨跌幅</th>
+                <th class="num">成交量</th>
+                <th class="num">持仓量</th>
+                <th>行情时间</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="boardBody"><tr><td colspan="7" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+    </table>
+</div>
+<div class="pager">
+    <button id="prevPage" disabled>← 上一页</button>
+    <span class="page-info" id="pageInfo">- / -</span>
+    <button id="nextPage" disabled>下一页 →</button>
+</div>
+
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">📉</span>头部标的走势</div>
+<div class="header-meta"><span id="chartMeta">-</span></div>        
+    </div>
+    <div class="chart-container" id="priceChart"><div class="loading-overlay"><div class="spinner"></div>加载走势...</div></div>
+<div class="card-note">选中标的的近 250 个交易日收盘价走势，点击表格行可切换。
+</div>
+</section>
+
+<footer class="site-footer">
+    <span>数据来源：上交所 · 深交所 · 东方财富</span>
+    <span class="footer-dot">·</span>
+    <span>市场数据，汪汪队/机构为分析维度</span>
+    <span class="footer-dot">·</span>
+    <span>仅供研究参考，不构成投资建议</span>
+</footer></div>
+
+<script>window.PAGE_ASSET_CLASS = "gold";</script>
+<script src="/js/asset.js"></script>
+</body>
+</html>

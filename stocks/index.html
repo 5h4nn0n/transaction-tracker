@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个股排行 — 市场 ETF 穿透分析</title>
+    <meta name="description" content="市场 ETF 持仓穿透到个股, 汪汪队/机构持仓作为维度筛选">
+
+    <script>(function(){try{var t=localStorage.getItem('nt-theme');document.documentElement.setAttribute('data-theme',(t==='dark'||t==='light')?t:'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script>window.NT_BASE = "/";</script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/core.js"></script>
+    <script src="/js/components.js"></script>
+
+    <script src="/js/vendor/echarts.min.js"></script>
+    <script>window.echarts || document.write('<script src="https://unpkg.com/echarts@5.5.1/dist/echarts.min.js"><\/script>');</script>
+
+<script src="/js/static-shim.js"></script></head>
+<body>
+<div class="app-container">
+<header class="header">
+    <div class="header-title">
+        <span class="icon">🔍</span>
+        <div>
+            <h1>市场个股 · ETF 穿透分析</h1>
+            <span id="reportDate" class="header-subtitle">穿透数据加载中...</span>
+        </div>
+    </div>
+    <div class="header-meta">
+<nav class="nav-links" data-theme-slot>
+    <a href="/" class="nav-link">🏠 首页</a>
+    <a href="/dashboard" class="nav-link">🧺 ETF</a>
+    <a href="/stocks" class="nav-link active">🔍 个股</a>
+    <a href="/futures" class="nav-link">🛢️ 期货</a>
+    <a href="/gold" class="nav-link">🥇 黄金</a>
+    <a href="/fx" class="nav-link">💱 汇率</a>
+    <a href="/market" class="nav-link">🌐 市场分析</a>
+    <a href="/reports" class="nav-link">📄 报告汇总</a>
+</nav>    </div>
+</header>
+
+<section class="stat-grid" id="statGrid">    <div class="stat-card">
+    <div class="stat-label">穿透个股数</div>
+    <div class="stat-value" id="statStockCount">-</div>
+    <div class="stat-sub">市场 ETF 成分股穿透</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">穿透持仓市值</div>
+    <div class="stat-value" id="statPenValue">-<small>亿元</small></div>
+    <div class="stat-sub">ETF 持有市值</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">ETF 总规模</div>
+    <div class="stat-value" id="statEtfNav">-<small>亿元</small></div>
+    <div class="stat-sub" id="statNtNav">其中汪汪队持有 -</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">持仓覆盖率</div>
+    <div class="stat-value" id="statCoverage">-<small>%</small></div>
+    <div class="stat-sub" id="statEtfCount">- 只 ETF 参与穿透</div>
+</div>
+</section>
+<section class="chart-row" style="margin-bottom:24px">
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🏆</span>穿透持仓市值 Top 15</div>
+        
+    </div>
+        <div class="chart-container-sm" id="topChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🧩</span>穿透来源分布</div>
+        
+    </div>
+        <div class="chart-container-sm" id="distChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+
+</section></section>
+
+<section class="theme-chart-grid">
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🛡️</span>汪汪队 / 机构持仓分布</div>
+        
+    </div>
+        <div class="theme-stat-row" id="themeStats"></div>
+    <div class="chart-container-sm" id="themeChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">📊</span>机构类型穿透市值分布</div>
+        
+    </div>
+        <div class="chart-container-sm" id="instTypeChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+
+</section></section>
+
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">📋</span>个股穿透明细</div>
+        
+    </div>
+    <div class="filter-bar">
+    <div class="search-box">
+        <span class="icon">🔎</span>
+        <input type="text" id="searchInput" placeholder="搜索股票代码或名称...">
+    </div>
+    <button class="chip" id="chipInst">仅机构持股</button>
+    <button class="chip" id="chipNt">汪汪队现身股东</button>
+    <button class="chip" id="chipBig">穿透市值 ≥ 1 亿</button>
+    <span class="filter-meta" id="filterMeta">-</span>
+</div>
+
+<div class="table-wrapper">
+    <table id="penTable">
+        <thead>
+            <tr>
+                <th data-sort="stock_code">代码</th>
+                <th data-sort="stock_name">名称</th>
+                <th>标签</th>
+                <th data-sort="close">现价</th>
+                <th data-sort="chg_pct">涨跌幅</th>
+                <th data-sort="pen_value">穿透市值(亿)</th>
+                <th data-sort="pen_shares">穿透股数(万股)</th>
+                <th data-sort="float_ratio">占流通市值%</th>
+                <th data-sort="etf_count">涉及ETF</th>
+                <th data-sort="org_num_all">机构家数</th>
+                <th data-sort="inst_free_ratio">机构占流通%</th>
+                <th data-sort="ss_ratio">社保占流通%</th>
+                <th>汪汪队股东</th>
+            </tr>
+        </thead>
+        <tbody id="penTableBody"><tr><td colspan="13" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+    </table>
+</div>
+
+<div class="pager">
+    <button id="prevPage" disabled>← 上一页</button>
+    <span class="page-info" id="pageInfo">- / -</span>
+    <button id="nextPage" disabled>下一页 →</button>
+</div>
+
+<div class="card-note"><b>穿透口径</b>：ETF 穿透持股数 = ETF 持有该股股数 × 该 ETF 中汪汪队份额占比（非汪汪队 ETF 穿透比例为 0）；
+穿透市值按个股最新收盘价折算。ETF 持仓取自最近一期<b>半年报 / 年报</b>全持仓披露（覆盖率见 ETF 详情页）。
+<br>
+<b>机构持仓</b>：来自个股最新定期报告（通常为季报），与 ETF 持仓报告期可能不同，仅作横向参考。
+<br>
+<b>维度标签</b>：汪汪队/机构为分析维度而非准入门槛，市场 ETF 和个股均在此展示，可通过标签列和筛选按钮快速聚焦。
+</div>
+</section>
+
+<footer class="site-footer">
+    <span>数据来源：上交所 · 深交所 · 东方财富</span>
+    <span class="footer-dot">·</span>
+    <span>市场数据，汪汪队/机构为分析维度</span>
+    <span class="footer-dot">·</span>
+    <span>仅供研究参考，不构成投资建议</span>
+</footer></div>
+
+<script src="/js/stocks.js"></script></body>
+</html>

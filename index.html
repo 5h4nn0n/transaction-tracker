@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>市场多资产量化看板</title>
+    <meta name="description" content="ETF、股票、期货、黄金、汇率的跨资产数据分析与穿透研究">
+
+    <script>(function(){try{var t=localStorage.getItem('nt-theme');document.documentElement.setAttribute('data-theme',(t==='dark'||t==='light')?t:'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script>window.NT_BASE = "/";</script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/core.js"></script>
+    <script src="/js/components.js"></script>
+
+    <script src="/js/vendor/echarts.min.js"></script>
+    <script>window.echarts || document.write('<script src="https://unpkg.com/echarts@5.5.1/dist/echarts.min.js"><\/script>');</script>
+
+<script src="/js/static-shim.js"></script></head>
+<body>
+<div class="app-container">
+<header class="header">
+    <div class="header-title">
+        <span class="icon">🏠</span>
+        <div>
+            <h1>市场多资产量化看板</h1>
+            <span id="asOf" class="header-subtitle">数据加载中...</span>
+        </div>
+    </div>
+    <div class="header-meta">
+<nav class="nav-links" data-theme-slot>
+    <a href="/" class="nav-link active">🏠 首页</a>
+    <a href="/dashboard" class="nav-link">🧺 ETF</a>
+    <a href="/stocks" class="nav-link">🔍 个股</a>
+    <a href="/futures" class="nav-link">🛢️ 期货</a>
+    <a href="/gold" class="nav-link">🥇 黄金</a>
+    <a href="/fx" class="nav-link">💱 汇率</a>
+    <a href="/market" class="nav-link">🌐 市场分析</a>
+    <a href="/reports" class="nav-link">📄 报告汇总</a>
+</nav>    </div>
+</header>
+
+<section class="stat-grid" id="homeStatGrid">    <div class="stat-card">
+    <div class="stat-label">跟踪标的</div>
+    <div class="stat-value" id="statTotal">-</div>
+    <div class="stat-sub">股票/ETF/期货/黄金/汇率</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">上涨 / 下跌</div>
+    <div class="stat-value" id="statUpDown">-</div>
+    <div class="stat-sub">最新交易日</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">成交额</div>
+    <div class="stat-value" id="statAmount">-<small>亿元</small></div>
+    <div class="stat-sub">市场合计</div>
+</div>
+    <div class="stat-card">
+    <div class="stat-label">ETF 总数</div>
+    <div class="stat-value" id="statEtfTotal">-</div>
+    <div class="stat-sub">市场 ETF</div>
+</div>
+</section>
+<section class="chart-row">
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">📈</span>ETF 份额走势</div>
+<div class="header-meta"><span id="chartMeta">-</span></div>        
+    </div>
+        <div class="chart-container-sm" id="homeChart"><div class="loading-overlay"><div class="spinner"></div>加载图表...</div></div>
+<div class="card-note">    市场 ETF 总份额与汪汪队 ETF 份额对比, 反映资金申赎趋势。
+</div>
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🛡️</span>维度概览</div>
+<div class="header-meta"><span id="dimMeta">-</span></div>        
+    </div>
+        <div class="home-dim-grid">
+        <div class="home-dim-card">
+            <span class="badge badge-nt">汪汪队 ETF</span>
+            <b id="statNtEtf">-</b>
+            <small>占市场 ETF</small>
+        </div>
+        <div class="home-dim-card">
+            <span class="badge badge-inst">机构 ETF</span>
+            <b id="statInstEtf">-</b>
+            <small>占市场 ETF</small>
+        </div>
+        <div class="home-dim-card">
+            <span>📊 总份额</span>
+            <b id="statTotalShare">-</b>
+            <small>亿份</small>
+        </div>
+        <div class="home-dim-card">
+            <span>📅 日变化</span>
+            <b id="statShareChg1d">-</b>
+            <small>较上一交易日</small>
+        </div>
+    </div>
+
+</section></section>
+
+<section class="chart-row">
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🔥</span>ETF 涨幅前 5</div>
+<div class="header-meta"><span id="gainerMeta">-</span></div>        
+    </div>
+        <div class="table-wrapper">
+        <table id="gainerTable">
+            <thead><tr><th>代码</th><th>名称</th><th class="num">涨跌幅</th></tr></thead>
+            <tbody id="gainerBody"><tr><td colspan="3" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+        </table>
+    </div>
+
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">💧</span>ETF 跌幅前 5</div>
+<div class="header-meta"><span id="loserMeta">-</span></div>        
+    </div>
+        <div class="table-wrapper">
+        <table id="loserTable">
+            <thead><tr><th>代码</th><th>名称</th><th class="num">涨跌幅</th></tr></thead>
+            <tbody id="loserBody"><tr><td colspan="3" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+        </table>
+    </div>
+
+</section></section>
+
+<section class="chart-row">
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🏆</span>穿透市值前 5</div>
+<div class="header-meta"><span id="penMeta">-</span></div>        
+    </div>
+        <div class="table-wrapper">
+        <table id="penTable">
+            <thead>
+                <tr><th>代码</th><th>名称</th><th class="num">穿透市值(亿)</th><th class="num">ETF数</th><th>标签</th></tr>
+            </thead>
+            <tbody id="penBody"><tr><td colspan="5" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+        </table>
+    </div>
+
+</section>
+<section class="card">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">📄</span>最新公告</div>
+<div class="header-meta"><span id="reportMeta">-</span></div>        
+    </div>
+        <div class="table-wrapper">
+        <table id="reportTable">
+            <thead>
+                <tr><th>日期</th><th>股票</th><th>标题</th><th>类型</th></tr>
+            </thead>
+            <tbody id="reportBody"><tr><td colspan="4" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+        </table>
+    </div>
+
+</section></section>
+
+<div class="card-note"><b>关于本站</b>：市场多资产量化看板, 覆盖 ETF、股票、指数、期货、黄金、汇率六大类资产。
+提供 ETF 份额变化、成分股穿透分析、跨资产相关性、资金流向、汪汪队/机构持仓维度对比等功能。
+数据每日收盘后自动采集, 汪汪队/机构作为分析维度标签而非准入门槛。
+</div>
+
+<footer class="site-footer">
+    <span>数据来源：上交所 · 深交所 · 东方财富</span>
+    <span class="footer-dot">·</span>
+    <span>市场数据，汪汪队/机构为分析维度</span>
+    <span class="footer-dot">·</span>
+    <span>仅供研究参考，不构成投资建议</span>
+</footer></div>
+
+<script src="/js/home.js"></script></body>
+</html>
