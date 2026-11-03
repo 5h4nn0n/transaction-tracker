@@ -30,42 +30,48 @@
     <div class="header-meta">
 <nav class="nav-links" data-theme-slot>
     <a href="/" class="nav-link">🏠 首页</a>
-    <a href="/dashboard" class="nav-link">🧺 ETF</a>
+    <a href="/etf" class="nav-link">🧺 ETF</a>
     <a href="/stocks" class="nav-link">🔍 个股</a>
     <a href="/futures" class="nav-link">🛢️ 期货</a>
     <a href="/gold" class="nav-link">🥇 黄金</a>
     <a href="/fx" class="nav-link">💱 汇率</a>
-    <a href="/market" class="nav-link">🌐 市场分析</a>
     <a href="/reports" class="nav-link active">📄 报告汇总</a>
 </nav>    </div>
 </header>
 
-<section class="stat-grid">    <div class="stat-card">
-    <div class="stat-label">报告总数</div>
+<main class="page-content reports-page">
+<section class="stat-grid">    <div class="stat-card" id="reports_stat_total">
+<span class="card-id-badge" aria-label="卡片编号 reports_stat_total">ID: reports_stat_total</span>    <div class="stat-label">报告总数</div>
     <div class="stat-value" id="statTotal">-</div>
     <div class="stat-sub">穿透个股发布的公告</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">覆盖个股</div>
+    <div class="stat-card" id="reports_stat_covered_stocks">
+<span class="card-id-badge" aria-label="卡片编号 reports_stat_covered_stocks">ID: reports_stat_covered_stocks</span>    <div class="stat-label">覆盖个股</div>
     <div class="stat-value" id="statStocks">-<small>只</small></div>
     <div class="stat-sub">有公告记录的穿透个股</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">近 30 天新增</div>
+    <div class="stat-card" id="reports_stat_recent_count">
+<span class="card-id-badge" aria-label="卡片编号 reports_stat_recent_count">ID: reports_stat_recent_count</span>    <div class="stat-label">近 30 天新增</div>
     <div class="stat-value" id="statRecent">-</div>
     <div class="stat-sub">最新公告持续更新</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">最新报告日期</div>
+    <div class="stat-card" id="reports_stat_latest_date">
+<span class="card-id-badge" aria-label="卡片编号 reports_stat_latest_date">ID: reports_stat_latest_date</span>    <div class="stat-label">最新报告日期</div>
     <div class="stat-value" id="statLatest">-</div>
     <div class="stat-sub">数据每日增量采集</div>
 </div>
 </section>
-<section class="card">
+<section class="content-section">
+    <header class="section-heading">
+        <span class="section-eyebrow">公司公告</span>
+        <h2>报告与公告明细</h2>
+        <p>按时间、类型或关键词筛选已采集公告；选择个股可进入其详情页。</p>
+    </header>
+<section class="card" id="reports_notice_detail">
     <div class="card-header">
         <div class="card-title"><span class="emoji">📋</span>报告明细</div>
         
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 reports_notice_detail">ID: reports_notice_detail</span>    </div>
     <div class="filter-bar">
     <div class="search-box">
         <span class="icon">🔎</span>
@@ -117,7 +123,9 @@
 <br>
 <b>类型归并</b>：交易所原始公告类型有上百种，这里按关键词归并为 7 组，便于筛选定期报告与重大事项。
 </div>
-</section>
+</section></section>
+</main>
+
 
 <footer class="site-footer">
     <span>数据来源：上交所 · 深交所 · 东方财富</span>

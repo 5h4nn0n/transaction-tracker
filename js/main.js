@@ -1,5 +1,5 @@
 /**
- * 市场 ETF 看板 — 主页逻辑
+ * ETF 市场看板逻辑（由 /etf 页面加载）
  * 市场 ETF 数据, 汪汪队 ETF 通过 is_nt 标签突出显示
  */
 (function () {
@@ -66,21 +66,21 @@
         const ntShareValues = data.share_total.map(d => d.nt_total ? (d.nt_total / 1e8).toFixed(2) : null);
 
         const series = [{
-            name: '市场ETF总份额(亿份)', type: 'line', yAxisIndex: 0, data: shareValues,
+            name: '上交所ETF总份额(亿份)', type: 'line', yAxisIndex: 0, data: shareValues,
             smooth: true, showSymbol: false, lineStyle: { width: 2.5, color: '#6366f1' },
             areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
                 colorStops: [{ offset: 0, color: 'rgba(99,102,241,0.25)' }, { offset: 1, color: 'rgba(99,102,241,0.02)' }] } },
             z: 10,
         }];
         if (ntShareValues.some(v => v != null)) {
-            series.push({ name: '汪汪队ETF份额(亿份)', type: 'line', yAxisIndex: 0, data: ntShareValues,
+            series.push({ name: '汪汪队ETF份额(上交所,亿份)', type: 'line', yAxisIndex: 0, data: ntShareValues,
                 smooth: true, showSymbol: false, lineStyle: { width: 2, color: '#f59e0b' }, z: 8 });
         }
 
         const colors = ['#06b6d4', '#ec4899', '#22c55e'];
         let ci = 0;
-        const legendData = ['市场ETF总份额(亿份)'];
-        if (ntShareValues.some(v => v != null)) legendData.push('汪汪队ETF份额(亿份)');
+        const legendData = ['上交所ETF总份额(亿份)'];
+        if (ntShareValues.some(v => v != null)) legendData.push('汪汪队ETF份额(上交所,亿份)');
 
         for (const [code, info] of Object.entries(data.index_prices)) {
             const c = colors[ci++ % colors.length];

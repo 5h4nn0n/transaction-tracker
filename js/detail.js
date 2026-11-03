@@ -1,5 +1,5 @@
 /**
- * 市场ETF 看板 — ETF 详情页逻辑
+ * ETF 市场看板 — ETF 详情页逻辑
  */
 (function () {
     'use strict';

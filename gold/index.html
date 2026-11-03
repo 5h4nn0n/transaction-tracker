@@ -32,42 +32,48 @@
     <div class="header-meta">
 <nav class="nav-links" data-theme-slot>
     <a href="/" class="nav-link">🏠 首页</a>
-    <a href="/dashboard" class="nav-link">🧺 ETF</a>
+    <a href="/etf" class="nav-link">🧺 ETF</a>
     <a href="/stocks" class="nav-link">🔍 个股</a>
     <a href="/futures" class="nav-link">🛢️ 期货</a>
     <a href="/gold" class="nav-link active">🥇 黄金</a>
     <a href="/fx" class="nav-link">💱 汇率</a>
-    <a href="/market" class="nav-link">🌐 市场分析</a>
     <a href="/reports" class="nav-link">📄 报告汇总</a>
 </nav>    </div>
 </header>
 
-<section class="stat-grid" id="statGrid">    <div class="stat-card">
-    <div class="stat-label">跟踪标的</div>
+<main class="page-content asset-page">
+<section class="stat-grid" id="statGrid">    <div class="stat-card" id="asset_gold_stat_tracked">
+<span class="card-id-badge" aria-label="卡片编号 asset_gold_stat_tracked">ID: asset_gold_stat_tracked</span>    <div class="stat-label">跟踪标的</div>
     <div class="stat-value" id="statTotal">-</div>
     <div class="stat-sub">贵金属行情</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">上涨 / 下跌</div>
+    <div class="stat-card" id="asset_gold_stat_up_down">
+<span class="card-id-badge" aria-label="卡片编号 asset_gold_stat_up_down">ID: asset_gold_stat_up_down</span>    <div class="stat-label">上涨 / 下跌</div>
     <div class="stat-value" id="statUpDown">-</div>
     <div class="stat-sub">最新交易日</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">平均涨跌</div>
+    <div class="stat-card" id="asset_gold_stat_average_change">
+<span class="card-id-badge" aria-label="卡片编号 asset_gold_stat_average_change">ID: asset_gold_stat_average_change</span>    <div class="stat-label">平均涨跌</div>
     <div class="stat-value" id="statAvg">-</div>
     <div class="stat-sub">算数平均</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">成交额</div>
+    <div class="stat-card" id="asset_gold_stat_trading_amount">
+<span class="card-id-badge" aria-label="卡片编号 asset_gold_stat_trading_amount">ID: asset_gold_stat_trading_amount</span>    <div class="stat-label">成交额</div>
     <div class="stat-value" id="statAmount">-<small>亿元</small></div>
     <div class="stat-sub"></div>
 </div>
 </section>
-<section class="card">
+<section class="content-section">
+    <header class="section-heading">
+        <span class="section-eyebrow">市场行情</span>
+        <h2>贵金属行情与价格走势</h2>
+        <p>从完整行情列表选择关注标的，走势区同步呈现对应日线变化。</p>
+    </header>
+<section class="card" id="asset_gold_market_detail">
     <div class="card-header">
         <div class="card-title"><span class="emoji">🥇</span>贵金属行情明细</div>
 <div class="header-meta"><span id="boardMeta">-</span></div>        
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 asset_gold_market_detail">ID: asset_gold_market_detail</span>    </div>
     <div class="filter-bar">
     <div class="search-box">
         <span class="icon">🔎</span>
@@ -95,17 +101,20 @@
     <span class="page-info" id="pageInfo">- / -</span>
     <button id="nextPage" disabled>下一页 →</button>
 </div>
-
+<div class="card-note">行情按所选资产类别展示已采集的市场目录；涨跌幅按行情源基准价计算，成交量、持仓量及行情时间沿用数据源披露口径。
+</div>
 </section>
-<section class="card">
+<section class="card" id="asset_gold_top_asset_trend">
     <div class="card-header">
         <div class="card-title"><span class="emoji">📉</span>头部标的走势</div>
 <div class="header-meta"><span id="chartMeta">-</span></div>        
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 asset_gold_top_asset_trend">ID: asset_gold_top_asset_trend</span>    </div>
     <div class="chart-container" id="priceChart"><div class="loading-overlay"><div class="spinner"></div>加载走势...</div></div>
 <div class="card-note">选中标的的近 250 个交易日收盘价走势，点击表格行可切换。
 </div>
-</section>
+</section></section>
+</main>
+
 
 <footer class="site-footer">
     <span>数据来源：上交所 · 深交所 · 东方财富</span>

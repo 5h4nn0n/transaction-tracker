@@ -83,6 +83,8 @@
             const res = await fetch('/api/stocks/summary');
             const d = await res.json();
             document.getElementById('statStockCount').textContent = d.stock_count.toLocaleString();
+            document.getElementById('statMarketStockCount').textContent =
+                `全市场 ${d.market_stock_count.toLocaleString()} 只`;
             document.getElementById('statPenValue').innerHTML = `${(d.total_pen_value / 1e8).toFixed(0)}<small>亿元</small>`;
             document.getElementById('statEtfNav').innerHTML = `${(d.etf_nav_size / 1e8).toFixed(0)}<small>亿元</small>`;
             document.getElementById('statNtNav').textContent = `其中汪汪队持有 ${(d.nt_nav_size / 1e8).toFixed(0)} 亿元`;
@@ -159,14 +161,14 @@
     function renderThemeChart(d) {
         if (!themeChart) return;
         const T = CT.theme();
-        const dist = d.etf_distribution || [];
-        let ntValue = 0, otherValue = 0;
-        dist.forEach(r => { if (r.is_nt) ntValue += (r.pen_value || 0); else otherValue += (r.pen_value || 0); });
+        const dist = d.theme_distribution || {};
+        const ntValue = dist.nt || 0;
+        const otherValue = dist.other || 0;
         themeChart.setOption({
             backgroundColor: 'transparent',
             tooltip: { trigger: 'item', backgroundColor: T.tooltipBg, borderColor: T.tooltipBorder,
                 textStyle: { color: T.tooltipText, fontSize: 12 },
-                formatter: p => `<b>${p.name}</b><br/>穿透市值 ${(p.value / 1e8).toFixed(2)} 亿元 (${p.percent}%)` },
+                formatter: p => `<b>${p.name}</b><br/>成分股持仓市值 ${(p.value / 1e8).toFixed(2)} 亿元 (${p.percent}%)` },
             legend: { orient: 'vertical', right: 6, top: 'center', itemWidth: 9, itemHeight: 9, textStyle: { color: T.legendText, fontSize: 10 } },
             series: [{ type: 'pie', radius: ['44%', '70%'], center: ['35%', '50%'], avoidLabelOverlap: true,
                 itemStyle: { borderColor: T.pieBorder, borderWidth: 2 },

@@ -82,7 +82,7 @@
         var stats = data.stats || {};
         var rows = data.rows || [];
         var up = stats.up_count || 0, down = stats.down_count || 0;
-        setText('statTotal', rows.length);
+        setText('statTotal', stats.total != null ? stats.total : rows.length);
         setText('statUpDown', up + ' / ' + down);
         setText('statAvg', pctText(stats.avg_chg_pct));
         setText('statAmount', (Number(stats.amount || 0) / 1e8).toFixed(0));

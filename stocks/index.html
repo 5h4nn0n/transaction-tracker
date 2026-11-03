@@ -32,79 +32,96 @@
     <div class="header-meta">
 <nav class="nav-links" data-theme-slot>
     <a href="/" class="nav-link">🏠 首页</a>
-    <a href="/dashboard" class="nav-link">🧺 ETF</a>
+    <a href="/etf" class="nav-link">🧺 ETF</a>
     <a href="/stocks" class="nav-link active">🔍 个股</a>
     <a href="/futures" class="nav-link">🛢️ 期货</a>
     <a href="/gold" class="nav-link">🥇 黄金</a>
     <a href="/fx" class="nav-link">💱 汇率</a>
-    <a href="/market" class="nav-link">🌐 市场分析</a>
     <a href="/reports" class="nav-link">📄 报告汇总</a>
 </nav>    </div>
 </header>
 
-<section class="stat-grid" id="statGrid">    <div class="stat-card">
-    <div class="stat-label">穿透个股数</div>
+<main class="page-content stocks-page">
+<section class="stat-grid" id="statGrid">    <div class="stat-card" id="stocks_stat_penetrated_count">
+<span class="card-id-badge" aria-label="卡片编号 stocks_stat_penetrated_count">ID: stocks_stat_penetrated_count</span>    <div class="stat-label">穿透个股数</div>
     <div class="stat-value" id="statStockCount">-</div>
-    <div class="stat-sub">市场 ETF 成分股穿透</div>
+    <div class="stat-sub" id="statMarketStockCount">市场股票总数 -</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">穿透持仓市值</div>
+    <div class="stat-card" id="stocks_stat_penetration_value">
+<span class="card-id-badge" aria-label="卡片编号 stocks_stat_penetration_value">ID: stocks_stat_penetration_value</span>    <div class="stat-label">穿透持仓市值</div>
     <div class="stat-value" id="statPenValue">-<small>亿元</small></div>
     <div class="stat-sub">ETF 持有市值</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">ETF 总规模</div>
+    <div class="stat-card" id="stocks_stat_etf_nav">
+<span class="card-id-badge" aria-label="卡片编号 stocks_stat_etf_nav">ID: stocks_stat_etf_nav</span>    <div class="stat-label">ETF 总规模</div>
     <div class="stat-value" id="statEtfNav">-<small>亿元</small></div>
     <div class="stat-sub" id="statNtNav">其中汪汪队持有 -</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">持仓覆盖率</div>
+    <div class="stat-card" id="stocks_stat_coverage">
+<span class="card-id-badge" aria-label="卡片编号 stocks_stat_coverage">ID: stocks_stat_coverage</span>    <div class="stat-label">持仓覆盖率</div>
     <div class="stat-value" id="statCoverage">-<small>%</small></div>
     <div class="stat-sub" id="statEtfCount">- 只 ETF 参与穿透</div>
 </div>
 </section>
-<section class="chart-row" style="margin-bottom:24px">
-<section class="card">
+<section class="content-section">
+    <header class="section-heading">
+        <span class="section-eyebrow">持仓结构</span>
+        <h2>穿透持仓分布</h2>
+        <p>先从总市值和持仓来源识别市场集中度，再查看机构与标签维度。</p>
+    </header>
+<div class="content-grid content-grid--balanced">
+<section class="card" id="stocks_penetration_value_top15">
     <div class="card-header">
         <div class="card-title"><span class="emoji">🏆</span>穿透持仓市值 Top 15</div>
         
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 stocks_penetration_value_top15">ID: stocks_penetration_value_top15</span>    </div>
         <div class="chart-container-sm" id="topChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
-
+<div class="card-note">    按 ETF 披露持股数量和最近价格估算穿透市值，展示金额最高的 15 只股票；汪汪队相关穿透比例按持有人标签折算。
+</div>
 </section>
-<section class="card">
+<section class="card" id="stocks_penetration_source_distribution">
     <div class="card-header">
         <div class="card-title"><span class="emoji">🧩</span>穿透来源分布</div>
         
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 stocks_penetration_source_distribution">ID: stocks_penetration_source_distribution</span>    </div>
         <div class="chart-container-sm" id="distChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+<div class="card-note">    按股票被纳入的 ETF 数量及持仓市值汇总穿透来源；数据仅覆盖已采集并成功解析的 ETF 成分披露。
+</div>
+</section></div>
 
-</section></section>
-
-<section class="theme-chart-grid">
-<section class="card">
+<div class="content-grid content-grid--balanced">
+<section class="card" id="stocks_holder_tag_distribution">
     <div class="card-header">
         <div class="card-title"><span class="emoji">🛡️</span>汪汪队 / 机构持仓分布</div>
         
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 stocks_holder_tag_distribution">ID: stocks_holder_tag_distribution</span>    </div>
         <div class="theme-stat-row" id="themeStats"></div>
     <div class="chart-container-sm" id="themeChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
-
+<div class="card-note">    按持有人标签拆分 ETF 穿透市值和涉及股票数量；汪汪队/机构标签仅用于分组比较，不影响市场标的收录。
+</div>
 </section>
-<section class="card">
+<section class="card" id="stocks_institution_type_distribution">
     <div class="card-header">
         <div class="card-title"><span class="emoji">📊</span>机构类型穿透市值分布</div>
         
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 stocks_institution_type_distribution">ID: stocks_institution_type_distribution</span>    </div>
         <div class="chart-container-sm" id="instTypeChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+<div class="card-note">    按机构类型汇总相应持仓对应的穿透市值；机构披露报告期与 ETF 成分报告期可能不同。
+</div>
+</section></div>
+</section>
 
-</section></section>
-
-<section class="card">
+<section class="content-section">
+    <header class="section-heading">
+        <span class="section-eyebrow">个股明细</span>
+        <h2>ETF 穿透个股排行</h2>
+        <p>搜索、筛选或排序个股，进一步核对持仓规模及机构披露情况。</p>
+    </header>
+<section class="card" id="stocks_penetration_detail">
     <div class="card-header">
         <div class="card-title"><span class="emoji">📋</span>个股穿透明细</div>
         
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 stocks_penetration_detail">ID: stocks_penetration_detail</span>    </div>
     <div class="filter-bar">
     <div class="search-box">
         <span class="icon">🔎</span>
@@ -152,7 +169,9 @@
 <br>
 <b>维度标签</b>：汪汪队/机构为分析维度而非准入门槛，市场 ETF 和个股均在此展示，可通过标签列和筛选按钮快速聚焦。
 </div>
-</section>
+</section></section>
+</main>
+
 
 <footer class="site-footer">
     <span>数据来源：上交所 · 深交所 · 东方财富</span>

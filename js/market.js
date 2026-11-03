@@ -139,18 +139,23 @@
             el.innerHTML = '';
             return;
         }
-        el.innerHTML = summary.map(function (s) {
+        el.innerHTML = summary.map(function (s, index) {
             var name = CLASS_NAMES[s.asset_class] || s.asset_class;
             var icon = CLASS_ICONS[s.asset_class] || '📊';
             var avg = s.avg_chg_pct;
-            return '<div class="class-card">' +
+            var classId = Object.prototype.hasOwnProperty.call(CLASS_NAMES, s.asset_class)
+                ? s.asset_class
+                : 'other_' + index;
+            var cardId = 'home_market_class_' + classId;
+            return '<div class="class-card" id="' + cardId + '">' +
                 '<div class="class-card-head"><span class="emoji">' + icon + '</span>' +
                 esc(name) + '<span class="class-count">' + (s.total || 0) + '</span></div>' +
                 '<div class="class-card-body">' +
                 '<span class="' + pctClass(avg) + '">' + pctText(avg) + '</span>' +
                 '<span class="class-detail">↑' + (s.up_count || 0) +
                 ' ↓' + (s.down_count || 0) + '</span>' +
-                '</div></div>';
+                '</div><span class="card-id-badge" aria-label="卡片编号 ' + cardId +
+                '">ID: ' + cardId + '</span></div>';
         }).join('');
     }
 
@@ -456,7 +461,7 @@
         var ntValues = series.map(function (s) { return +(s.nt_share / 1e8).toFixed(2); });
         var otherValues = series.map(function (s) { return +(s.other_share / 1e8).toFixed(2); });
 
-        var meta = '汪汪队 ' + data.nt_etf_count + ' / ' + data.total_etf_count + ' 只 ETF';
+        var meta = '上交所份额口径：汪汪队 ' + data.nt_etf_count + ' / ' + data.total_etf_count + ' 只 ETF';
         setText('themeCompareMeta', meta);
 
         chart.setOption({
@@ -468,7 +473,7 @@
                 valueFormatter: function (v) { return v == null ? '—' : v + ' 亿份'; }
             },
             legend: {
-                data: ['汪汪队 ETF 份额', '其他 ETF 份额'],
+                data: ['汪汪队 ETF（上交所）份额', '其他 ETF（上交所）份额'],
                 textStyle: { color: T.legendText }, top: 0, right: 0
             },
             grid: { left: 56, right: 16, top: 36, bottom: 32 },
@@ -485,7 +490,7 @@
             },
             series: [
                 {
-                    name: '汪汪队 ETF 份额', type: 'line', data: ntValues,
+                    name: '汪汪队 ETF（上交所）份额', type: 'line', data: ntValues,
                     smooth: true, symbol: 'none',
                     lineStyle: { width: 2.5, color: '#6366f1' },
                     areaStyle: {
@@ -499,7 +504,7 @@
                     }
                 },
                 {
-                    name: '其他 ETF 份额', type: 'line', data: otherValues,
+                    name: '其他 ETF（上交所）份额', type: 'line', data: otherValues,
                     smooth: true, symbol: 'none',
                     lineStyle: { width: 2, color: '#06b6d4' }
                 }

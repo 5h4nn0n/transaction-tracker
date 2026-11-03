@@ -22,18 +22,18 @@
 <body>
 <div class="app-container">
 <div class="page-top">
-    <a href="/" class="back-btn">← 返回看板</a>
+    <a href="/etf" class="back-btn">← 返回 ETF 看板</a>
 <nav class="nav-links" data-theme-slot>
     <a href="/" class="nav-link">🏠 首页</a>
-    <a href="/dashboard" class="nav-link active">🧺 ETF</a>
+    <a href="/etf" class="nav-link active">🧺 ETF</a>
     <a href="/stocks" class="nav-link">🔍 个股</a>
     <a href="/futures" class="nav-link">🛢️ 期货</a>
     <a href="/gold" class="nav-link">🥇 黄金</a>
     <a href="/fx" class="nav-link">💱 汇率</a>
-    <a href="/market" class="nav-link">🌐 市场分析</a>
     <a href="/reports" class="nav-link">📄 报告汇总</a>
 </nav></div>
 
+<main class="page-content etf-detail-page">
 <div class="detail-header" id="detailHeader">
     <span class="code" id="etfCode">-</span>
     <h1 id="etfName">加载中...</h1>
@@ -41,7 +41,13 @@
     <span id="etfPenBadge" class="tag tag-inst" style="display:none"></span>
 </div>
 
-<section class="card">
+<section class="content-section">
+    <header class="section-heading">
+        <span class="section-eyebrow">行情趋势</span>
+        <h2>ETF 价格与份额变化</h2>
+        <p>选择区间查看价格走势和基金披露份额变化。</p>
+    </header>
+<section class="card" id="etf_detail_price_share_trend">
     <div class="card-header">
         <div class="card-title"><span class="emoji">📈</span>价格 &amp; 份额走势</div>
         <div class="time-selector" id="timeSelector">
@@ -49,15 +55,23 @@
     <button class="time-btn" data-days="90">3月</button>
     <button class="time-btn active" data-days="365">1年</button>
 </div>
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 etf_detail_price_share_trend">ID: etf_detail_price_share_trend</span>    </div>
     <div class="chart-container" id="detailChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+<div class="card-note">展示所选区间内 ETF 份额与价格变化；份额按基金披露日期统计，价格为日线收盘价，两者刻度不同。
+</div>
+</section></section>
 
-</section>
-<section class="card">
+<section class="content-section">
+    <header class="section-heading">
+        <span class="section-eyebrow">ETF 持仓</span>
+        <h2>成分股与持有人</h2>
+        <p>成分持仓与十大持有人采用基金定期披露数据，报告期可能存在滞后。</p>
+    </header>
+<section class="card" id="etf_detail_constituent_breakdown">
     <div class="card-header">
         <div class="card-title"><span class="emoji">🧩</span>成分股穿透明细</div>
 <div class="header-meta"><span id="basketMeta">-</span></div>        
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 etf_detail_constituent_breakdown">ID: etf_detail_constituent_breakdown</span>    </div>
     <div class="table-wrapper">
     <table id="constTable">
         <thead>
@@ -82,11 +96,11 @@
 成分股取自最近一期<b>半年报 / 年报</b>全持仓披露，覆盖率不足 100% 的部分不会出现在穿透结果中。
 </div>
 </section>
-<section class="card">
+<section class="card" id="etf_detail_top10_holders">
     <div class="card-header">
         <div class="card-title"><span class="emoji">👥</span>十大持有人明细</div>
         
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 etf_detail_top10_holders">ID: etf_detail_top10_holders</span>    </div>
     <div class="report-dates" id="reportDates"></div>
 <div class="table-wrapper">
     <table class="holders-table" id="holdersTable">
@@ -104,8 +118,11 @@
         <tbody id="holdersBody"><tr><td colspan="7" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
     </table>
 </div>
+<div class="card-note">持有人信息来自最近披露的定期报告，份额变化按本期与上期披露值比较；不同基金报告期可能不同。
+</div>
+</section></section>
+</main>
 
-</section>
 
 <footer class="site-footer">
     <span>数据来源：上交所 · 深交所 · 东方财富</span>

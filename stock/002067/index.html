@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个股穿透详情 — 市场 ETF 穿透分析</title>
+    <meta name="description" content="ETF 间接持有该个股的穿透持仓拆解与机构持仓情况">
+
+    <script>(function(){try{var t=localStorage.getItem('nt-theme');document.documentElement.setAttribute('data-theme',(t==='dark'||t==='light')?t:'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script>window.NT_BASE = "/";</script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/core.js"></script>
+    <script src="/js/components.js"></script>
+
+    <script src="/js/vendor/echarts.min.js"></script>
+    <script>window.echarts || document.write('<script src="https://unpkg.com/echarts@5.5.1/dist/echarts.min.js"><\/script>');</script>
+
+<script>window.NT_CODE = "002067";</script><script src="/js/static-shim.js"></script></head>
+<body>
+<div class="app-container">
+<div class="page-top">
+    <a href="/stocks" class="back-btn">← 返回个股穿透</a>
+<nav class="nav-links" data-theme-slot>
+    <a href="/" class="nav-link">🏠 首页</a>
+    <a href="/etf" class="nav-link">🧺 ETF</a>
+    <a href="/stocks" class="nav-link active">🔍 个股</a>
+    <a href="/futures" class="nav-link">🛢️ 期货</a>
+    <a href="/gold" class="nav-link">🥇 黄金</a>
+    <a href="/fx" class="nav-link">💱 汇率</a>
+    <a href="/reports" class="nav-link">📄 报告汇总</a>
+</nav></div>
+
+<main class="page-content stock-detail-page">
+<div class="stock-header" id="stockHeader">
+    <div>
+        <div class="stock-title">
+            <h1 id="stockName">加载中...</h1>
+            <span class="code" id="stockCode">-</span>
+            <span id="stockBadges"></span>
+        </div>
+        <div class="stock-meta" id="stockMeta"></div>
+    </div>
+    <div class="stock-price" id="stockPrice"></div>
+</div>
+
+<section class="stat-grid" id="statGrid">    <div class="stat-card" id="stock_detail_stat_penetration_value">
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_stat_penetration_value">ID: stock_detail_stat_penetration_value</span>    <div class="stat-label">穿透持仓市值</div>
+    <div class="stat-value" id="statPenValue">-<small>亿元</small></div>
+    <div class="stat-sub">ETF 间接持有</div>
+</div>
+    <div class="stat-card" id="stock_detail_stat_penetrated_shares">
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_stat_penetrated_shares">ID: stock_detail_stat_penetrated_shares</span>    <div class="stat-label">穿透持股数</div>
+    <div class="stat-value" id="statPenShares">-<small>万股</small></div>
+    <div class="stat-sub" id="statPenRatio">占流通市值 -</div>
+</div>
+    <div class="stat-card" id="stock_detail_stat_etf_count">
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_stat_etf_count">ID: stock_detail_stat_etf_count</span>    <div class="stat-label">涉及 ETF</div>
+    <div class="stat-value" id="statEtfCount">-<small>只</small></div>
+    <div class="stat-sub" id="statEtfTop">-</div>
+</div>
+    <div class="stat-card" id="stock_detail_stat_institution_ratio">
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_stat_institution_ratio">ID: stock_detail_stat_institution_ratio</span>    <div class="stat-label">机构持股占流通</div>
+    <div class="stat-value" id="statInst">-<small>%</small></div>
+    <div class="stat-sub" id="statInstNum">-</div>
+</div>
+    <div class="stat-card" id="stock_detail_stat_nt_seats">
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_stat_nt_seats">ID: stock_detail_stat_nt_seats</span>    <div class="stat-label">汪汪队股东席位</div>
+    <div class="stat-value" id="statNtSeat">-<small>席</small></div>
+    <div class="stat-sub">十大流通股东中</div>
+</div>
+</section>
+<section class="content-section">
+    <header class="section-heading">
+        <span class="section-eyebrow">行情与机构</span>
+        <h2>价格表现与机构持仓</h2>
+        <p>行情反映交易表现，机构信息基于定期报告披露。</p>
+    </header>
+<div class="content-grid content-grid--balanced">
+<section class="card" id="stock_detail_price_trend">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">📈</span>价格走势</div>
+        
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_price_trend">ID: stock_detail_price_trend</span>    </div>
+        <div class="chart-container-sm" id="priceChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+<div class="card-note">    展示该股已采集的日线收盘价；若行情源或交易日数据尚未更新，曲线会停留在最近可用日期。
+</div>
+</section>
+<section class="card" id="stock_detail_institution_structure">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🏦</span>机构持仓结构</div>
+        
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_institution_structure">ID: stock_detail_institution_structure</span>    </div>
+        <div class="chart-container-sm" id="instChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+<div class="card-note">    按最新可用定期报告中的机构类别汇总持股；机构持仓具有报告期滞后，不代表实时持仓。
+</div>
+</section></div>
+</section>
+
+<section class="content-section">
+    <header class="section-heading">
+        <span class="section-eyebrow">持仓与披露</span>
+        <h2>ETF 穿透来源与股东变化</h2>
+        <p>查看该股的 ETF 间接持仓、主要机构和前十大股东披露。</p>
+    </header>
+<section class="card" id="stock_detail_penetration_sources">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🧩</span>穿透来源拆解</div>
+<div class="header-meta"><span id="sourceMeta">-</span></div>        
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_penetration_sources">ID: stock_detail_penetration_sources</span>    </div>
+    <div class="table-wrapper">
+    <table id="sourceTable">
+        <thead>
+            <tr>
+                <th>ETF 代码</th>
+                <th>ETF 名称</th>
+                <th>报告期</th>
+                <th>占净值比例%</th>
+                <th>ETF 持股(万股)</th>
+                <th>汪汪队占比%</th>
+                <th>穿透股数(万股)</th>
+                <th>穿透市值(亿)</th>
+            </tr>
+        </thead>
+        <tbody id="sourceBody"><tr><td colspan="8" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+    </table>
+</div>
+<div class="card-note">穿透股数 = ETF 持有该股股数 × 汪汪队在该 ETF 中的份额占比（非汪汪队 ETF 穿透比例为 0）；
+穿透市值按该股最新收盘价折算。
+</div>
+</section>
+<section class="card" id="stock_detail_institution_detail">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🏛️</span>机构持仓明细</div>
+<div class="header-meta"><span id="instDate">-</span></div>        
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_institution_detail">ID: stock_detail_institution_detail</span>    </div>
+    <div class="table-wrapper">
+    <table id="instTable">
+        <thead>
+            <tr>
+                <th>机构类型</th>
+                <th>机构家数</th>
+                <th>持股数(万股)</th>
+                <th>占流通股比%</th>
+                <th>占总股本比%</th>
+            </tr>
+        </thead>
+        <tbody id="instBody"><tr><td colspan="5" class="no-data">加载中...</td></tr></tbody>
+    </table>
+</div>
+<div class="card-note">展示最近可用报告期的机构持仓家数、股数及占比；占比按接口披露的流通股本和总股本口径计算。
+</div>
+</section>
+
+<section class="card" id="stock_detail_top10_shareholders">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">👥</span>十大流通股东 / 十大股东</div>
+        <div class="time-selector">
+    <button class="time-btn active" data-list="sdltgd">十大流通股东</button>
+    <button class="time-btn" data-list="sdgd">十大股东</button>
+</div>
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_top10_shareholders">ID: stock_detail_top10_shareholders</span>    </div>
+    <div class="report-dates" id="holderDates"></div>
+<div class="table-wrapper">
+    <table id="holderTable">
+        <thead>
+            <tr>
+                <th>排名</th>
+                <th>股东名称</th>
+                <th>股东性质</th>
+                <th>持股数(万股)</th>
+                <th>占流通股比%</th>
+                <th>较上期变化</th>
+            </tr>
+        </thead>
+        <tbody id="holderBody"><tr><td colspan="6" class="no-data">加载中...</td></tr></tbody>
+    </table>
+</div>
+<div class="card-note">按所选股东名单展示最近披露期排名前十的股东，并与上一披露期比较持股变化；披露期可能非最新交易日。
+</div>
+</section>
+<section class="card" id="stock_detail_reports">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">📄</span>该股公告 / 报告</div>
+<div class="header-meta"><span id="reportMeta">-</span></div>        
+<span class="card-id-badge" aria-label="卡片编号 stock_detail_reports">ID: stock_detail_reports</span>    </div>
+    <div class="table-wrapper">
+    <table id="reportTable">
+        <thead>
+            <tr>
+                <th>日期</th>
+                <th>标题</th>
+                <th>类型</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="reportBody"><tr><td colspan="4" class="no-data">加载中...</td></tr></tbody>
+    </table>
+</div>
+<div class="card-note">数据来源：东方财富公告中心。点击「查看」打开公告详情页，「PDF」直接下载原文。
+</div>
+</section></section>
+</main>
+
+
+<footer class="site-footer">
+    <span>数据来源：上交所 · 深交所 · 东方财富</span>
+    <span class="footer-dot">·</span>
+    <span>市场数据，汪汪队/机构为分析维度</span>
+    <span class="footer-dot">·</span>
+    <span>仅供研究参考，不构成投资建议</span>
+</footer></div>
+
+<script src="/js/stock.js"></script></body>
+</html>

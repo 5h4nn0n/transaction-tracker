@@ -44,10 +44,14 @@
     async function loadChart() {
         try {
             var res = await fetch('/api/home/chart?days=30');
+            if (!res.ok) throw new Error('HTTP ' + res.status);
             var data = await res.json();
             renderChart(data);
         } catch (e) {
             console.error('home chart error', e);
+            var el = document.getElementById('homeChart');
+            if (chartInstance) chartInstance.clear();
+            if (el) el.innerHTML = '<div class="no-data">份额数据加载失败</div>';
         }
     }
 
@@ -87,7 +91,7 @@
         });
 
         var series = [{
-            name: '市场份额', type: 'line', data: totals,
+            name: '上交所 ETF 份额', type: 'line', data: totals,
             smooth: true, symbol: 'none',
             lineStyle: { width: 2.5, color: '#6366f1' },
             areaStyle: {
@@ -102,7 +106,7 @@
         }];
         if (ntTotals.some(function (v) { return v != null; })) {
             series.push({
-                name: '汪汪队ETF份额', type: 'line', data: ntTotals,
+                name: '汪汪队 ETF（上交所）份额', type: 'line', data: ntTotals,
                 smooth: true, symbol: 'none',
                 lineStyle: { width: 2, color: '#f59e0b' }
             });

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>市场多资产量化看板</title>
-    <meta name="description" content="ETF、股票、期货、黄金、汇率的跨资产数据分析与穿透研究">
+    <title>市场综合分析首页</title>
+    <meta name="description" content="多资产市场概览、ETF 资金变化、跨资产联动与个股穿透分析">
 
     <script>(function(){try{var t=localStorage.getItem('nt-theme');document.documentElement.setAttribute('data-theme',(t==='dark'||t==='light')?t:'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
 
@@ -25,118 +25,138 @@
     <div class="header-title">
         <span class="icon">🏠</span>
         <div>
-            <h1>市场多资产量化看板</h1>
+            <h1>市场综合分析首页</h1>
             <span id="asOf" class="header-subtitle">数据加载中...</span>
         </div>
     </div>
     <div class="header-meta">
 <nav class="nav-links" data-theme-slot>
     <a href="/" class="nav-link active">🏠 首页</a>
-    <a href="/dashboard" class="nav-link">🧺 ETF</a>
+    <a href="/etf" class="nav-link">🧺 ETF</a>
     <a href="/stocks" class="nav-link">🔍 个股</a>
     <a href="/futures" class="nav-link">🛢️ 期货</a>
     <a href="/gold" class="nav-link">🥇 黄金</a>
     <a href="/fx" class="nav-link">💱 汇率</a>
-    <a href="/market" class="nav-link">🌐 市场分析</a>
     <a href="/reports" class="nav-link">📄 报告汇总</a>
 </nav>    </div>
 </header>
 
-<section class="stat-grid" id="homeStatGrid">    <div class="stat-card">
-    <div class="stat-label">跟踪标的</div>
+<main class="page-content home-page">
+<section class="stat-grid" id="homeStatGrid">    <div class="stat-card" id="home_stat_tracked_assets">
+<span class="card-id-badge" aria-label="卡片编号 home_stat_tracked_assets">ID: home_stat_tracked_assets</span>    <div class="stat-label">跟踪标的</div>
     <div class="stat-value" id="statTotal">-</div>
     <div class="stat-sub">股票/ETF/期货/黄金/汇率</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">上涨 / 下跌</div>
+    <div class="stat-card" id="home_stat_up_down">
+<span class="card-id-badge" aria-label="卡片编号 home_stat_up_down">ID: home_stat_up_down</span>    <div class="stat-label">上涨 / 下跌</div>
     <div class="stat-value" id="statUpDown">-</div>
     <div class="stat-sub">最新交易日</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">成交额</div>
+    <div class="stat-card" id="home_stat_trading_amount">
+<span class="card-id-badge" aria-label="卡片编号 home_stat_trading_amount">ID: home_stat_trading_amount</span>    <div class="stat-label">成交额</div>
     <div class="stat-value" id="statAmount">-<small>亿元</small></div>
     <div class="stat-sub">市场合计</div>
 </div>
-    <div class="stat-card">
-    <div class="stat-label">ETF 总数</div>
+    <div class="stat-card" id="home_stat_etf_count">
+<span class="card-id-badge" aria-label="卡片编号 home_stat_etf_count">ID: home_stat_etf_count</span>    <div class="stat-label">ETF 总数</div>
     <div class="stat-value" id="statEtfTotal">-</div>
     <div class="stat-sub">市场 ETF</div>
 </div>
 </section>
-<section class="chart-row">
-<section class="card">
+<section class="content-section">
+    <header class="section-heading">
+        <span class="section-eyebrow">ETF 资金与表现</span>
+        <h2>上交所 ETF 份额与每日表现</h2>
+        <p>先看 ETF 资金规模和标签分布，再查看当日涨跌及穿透持仓重点。</p>
+    </header>
+    <div class="content-grid content-grid--feature">
+<section class="card" id="home_etf_share_trend">
     <div class="card-header">
         <div class="card-title"><span class="emoji">📈</span>ETF 份额走势</div>
 <div class="header-meta"><span id="chartMeta">-</span></div>        
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 home_etf_share_trend">ID: home_etf_share_trend</span>    </div>
         <div class="chart-container-sm" id="homeChart"><div class="loading-overlay"><div class="spinner"></div>加载图表...</div></div>
-<div class="card-note">    市场 ETF 总份额与汪汪队 ETF 份额对比, 反映资金申赎趋势。
+<div class="card-note">    对比上交所 ETF 与汪汪队 ETF 份额变化；当前未接入深交所份额，数据不代表沪深 ETF 全市场。份额变化不直接等同于资金净流入金额。
 </div>
 </section>
-<section class="card">
+<section class="card" id="home_dimension_overview">
     <div class="card-header">
         <div class="card-title"><span class="emoji">🛡️</span>维度概览</div>
 <div class="header-meta"><span id="dimMeta">-</span></div>        
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 home_dimension_overview">ID: home_dimension_overview</span>    </div>
         <div class="home-dim-grid">
-        <div class="home-dim-card">
+        <div class="home-dim-card" id="home_dimension_nt_etf">
+            <span class="card-id-badge" aria-label="卡片编号 home_dimension_nt_etf">ID: home_dimension_nt_etf</span>
             <span class="badge badge-nt">汪汪队 ETF</span>
             <b id="statNtEtf">-</b>
             <small>占市场 ETF</small>
         </div>
-        <div class="home-dim-card">
+        <div class="home-dim-card" id="home_dimension_institution_etf">
+            <span class="card-id-badge" aria-label="卡片编号 home_dimension_institution_etf">ID: home_dimension_institution_etf</span>
             <span class="badge badge-inst">机构 ETF</span>
             <b id="statInstEtf">-</b>
             <small>占市场 ETF</small>
         </div>
-        <div class="home-dim-card">
+        <div class="home-dim-card" id="home_dimension_total_share">
+            <span class="card-id-badge" aria-label="卡片编号 home_dimension_total_share">ID: home_dimension_total_share</span>
             <span>📊 总份额</span>
             <b id="statTotalShare">-</b>
             <small>亿份</small>
         </div>
-        <div class="home-dim-card">
+        <div class="home-dim-card" id="home_dimension_daily_change">
+            <span class="card-id-badge" aria-label="卡片编号 home_dimension_daily_change">ID: home_dimension_daily_change</span>
             <span>📅 日变化</span>
             <b id="statShareChg1d">-</b>
             <small>较上一交易日</small>
         </div>
     </div>
+<div class="card-note">    汪汪队与机构标签根据持有人识别结果统计；总份额为上交所 ETF 最新披露份额合计，日变化与上一披露交易日比较。
+</div>
+</section>    </div>
+</section>
 
-</section></section>
-
-<section class="chart-row">
-<section class="card">
+<section class="content-section">
+    <header class="section-heading">
+        <span class="section-eyebrow">市场观察</span>
+        <h2>ETF 涨跌与持仓热点</h2>
+        <p>用涨跌榜快速把握强弱，再结合 ETF 穿透持仓与公司公告观察个股。</p>
+    </header>
+    <div class="content-grid content-grid--balanced">
+<section class="card" id="home_etf_gainers_top5">
     <div class="card-header">
         <div class="card-title"><span class="emoji">🔥</span>ETF 涨幅前 5</div>
 <div class="header-meta"><span id="gainerMeta">-</span></div>        
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 home_etf_gainers_top5">ID: home_etf_gainers_top5</span>    </div>
         <div class="table-wrapper">
         <table id="gainerTable">
             <thead><tr><th>代码</th><th>名称</th><th class="num">涨跌幅</th></tr></thead>
             <tbody id="gainerBody"><tr><td colspan="3" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
         </table>
     </div>
-
+<div class="card-note">    按 ETF 最近两个有效交易日收盘价计算涨跌幅，展示涨幅最高的 5 只；不按汪汪队或机构标签筛选。
+</div>
 </section>
-<section class="card">
+<section class="card" id="home_etf_losers_top5">
     <div class="card-header">
         <div class="card-title"><span class="emoji">💧</span>ETF 跌幅前 5</div>
 <div class="header-meta"><span id="loserMeta">-</span></div>        
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 home_etf_losers_top5">ID: home_etf_losers_top5</span>    </div>
         <div class="table-wrapper">
         <table id="loserTable">
             <thead><tr><th>代码</th><th>名称</th><th class="num">涨跌幅</th></tr></thead>
             <tbody id="loserBody"><tr><td colspan="3" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
         </table>
     </div>
+<div class="card-note">    按 ETF 最近两个有效交易日收盘价计算涨跌幅，展示跌幅最低的 5 只；不按汪汪队或机构标签筛选。
+</div>
+</section>    </div>
 
-</section></section>
-
-<section class="chart-row">
-<section class="card">
+    <div class="content-grid content-grid--report">
+<section class="card" id="home_penetration_value_top5">
     <div class="card-header">
         <div class="card-title"><span class="emoji">🏆</span>穿透市值前 5</div>
 <div class="header-meta"><span id="penMeta">-</span></div>        
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 home_penetration_value_top5">ID: home_penetration_value_top5</span>    </div>
         <div class="table-wrapper">
         <table id="penTable">
             <thead>
@@ -145,13 +165,14 @@
             <tbody id="penBody"><tr><td colspan="5" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
         </table>
     </div>
-
+<div class="card-note">    按 ETF 最近披露的成分持仓与汪汪队份额占比汇总穿透市值，并按金额排序；这里的数值不是 ETF 全部持仓市值。
+</div>
 </section>
-<section class="card">
+<section class="card" id="home_latest_reports">
     <div class="card-header">
         <div class="card-title"><span class="emoji">📄</span>最新公告</div>
 <div class="header-meta"><span id="reportMeta">-</span></div>        
-    </div>
+<span class="card-id-badge" aria-label="卡片编号 home_latest_reports">ID: home_latest_reports</span>    </div>
         <div class="table-wrapper">
         <table id="reportTable">
             <thead>
@@ -160,13 +181,182 @@
             <tbody id="reportBody"><tr><td colspan="4" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
         </table>
     </div>
-
-</section></section>
-
-<div class="card-note"><b>关于本站</b>：市场多资产量化看板, 覆盖 ETF、股票、指数、期货、黄金、汇率六大类资产。
-提供 ETF 份额变化、成分股穿透分析、跨资产相关性、资金流向、汪汪队/机构持仓维度对比等功能。
-数据每日收盘后自动采集, 汪汪队/机构作为分析维度标签而非准入门槛。
+<div class="card-note">    展示公告库中发布日期最新的记录；公告来源、分类及更新时间以采集入库信息为准。
 </div>
+</section>    </div>
+</section>
+
+
+<section class="content-section market-analysis">
+    <header class="section-heading">
+        <span class="section-eyebrow">跨市场数据</span>
+        <h2>多资产市场</h2>
+        <p>按类别查看行情，再通过相关性、资金变化和轮动指标观察市场联动。</p>
+    </header>
+    <div class="class-grid" id="classGrid" data-card-prefix="home_market_class"></div>
+    <p class="section-caption">
+        类别卡片展示当前行情标的数、涨跌家数及平均涨跌幅；不同市场交易时段可能不同步。
+    </p>
+
+    <div class="market-board">
+<section class="card" id="home_market_board">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">📊</span>多资产行情</div>
+<div class="header-meta"><span id="boardMeta">-</span></div>        
+<span class="card-id-badge" aria-label="卡片编号 home_market_board">ID: home_market_board</span>    </div>
+    <div class="filter-bar">
+    <div class="search-box">
+        <span class="icon">🔎</span>
+        <input type="text" id="boardSearch" placeholder="搜索代码或名称...">
+    </div>
+    <div class="chip-group" id="classFilter">
+        <button class="chip active" data-class="">全部</button>
+        <button class="chip" data-class="index">指数</button>
+        <button class="chip" data-class="etf">ETF</button>
+        <button class="chip" data-class="equity">股票</button>
+        <button class="chip" data-class="futures">期货</button>
+        <button class="chip" data-class="gold">黄金</button>
+        <button class="chip" data-class="fx">汇率</button>
+    </div>
+</div>
+<div class="table-wrapper">
+    <table id="boardTable">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>类别</th>
+                <th class="num">最新价</th>
+                <th class="num">涨跌幅</th>
+                <th class="num">成交额</th>
+                <th class="num">持仓量</th>
+                <th>行情时间</th>
+            </tr>
+        </thead>
+        <tbody id="boardBody"><tr><td colspan="7" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+    </table>
+</div>
+<div class="pager">
+    <button id="prevPage" disabled>← 上一页</button>
+    <span class="page-info" id="pageInfo">- / -</span>
+    <button id="nextPage" disabled>下一页 →</button>
+</div>
+<div class="card-note">涨跌幅按最新价与前收盘计算，期货以昨结算价为基准；成交额统一按元存储并换算显示，缺少该字段的品种显示为 —。筛选只作用于当前已采集行情。
+</div>
+</section>    </div>
+
+    <header class="section-heading section-heading--sub">
+        <span class="section-eyebrow">市场联动</span>
+        <h2>相关性与资金轮动</h2>
+        <p>统计关系用于辅助观察，不代表因果关系或投资建议。</p>
+    </header>
+
+    <div class="content-grid content-grid--wide">
+<section class="card" id="home_market_asset_correlation">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🔥</span>跨资产相关性</div>
+<div class="header-meta"><span id="corrMeta">-</span></div>        <div class="time-selector" id="rangePicker">
+    <button class="time-btn" data-window="30">30日</button>
+    <button class="time-btn active" data-window="60">60日</button>
+    <button class="time-btn" data-window="120">120日</button>
+</div>
+<span class="card-id-badge" aria-label="卡片编号 home_market_asset_correlation">ID: home_market_asset_correlation</span>    </div>
+    <div class="chart-container" id="corrChart"><div class="loading-overlay"><div class="spinner"></div>计算相关性...</div></div>
+<div class="card-note">先将日线收盘价转为日收益率，按交易日对齐后计算 Pearson 相关系数；颜色表示正负及强弱，样本不足的组合不参与展示。领先滞后使用所选窗口内的收益率互相关估算，相关性不代表因果关系。
+</div>
+</section>    </div>
+
+    <div class="content-grid content-grid--balanced">
+<section class="card" id="home_market_strongest_pairs">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🔗</span>最强联动组合</div>
+<div class="header-meta"><span id="pairMeta">-</span></div>        
+<span class="card-id-badge" aria-label="卡片编号 home_market_strongest_pairs">ID: home_market_strongest_pairs</span>    </div>
+        <div class="filter-bar">
+        <button class="chip active" id="chipCross">只看跨资产</button>
+        <span class="filter-meta" id="pairFilterMeta">-</span>
+    </div>
+    <div class="table-wrapper">
+        <table id="pairTable">
+            <thead>
+                <tr>
+                    <th>资产 A</th>
+                    <th>资产 B</th>
+                    <th class="num">相关系数</th>
+                    <th>关系</th>
+                    <th>领先 / 滞后</th>
+                </tr>
+            </thead>
+            <tbody id="pairBody"><tr><td colspan="5" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+        </table>
+    </div>
+<div class="card-note">    按所选窗口的日收益率相关系数排序；默认仅显示不同资产类别之间的组合。领先/滞后是统计上的时序偏移，不构成因果或交易信号。
+</div>
+</section>
+<section class="card" id="home_market_leaders">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">⏱️</span>谁在领跑</div>
+<div class="header-meta"><span id="leaderMeta">-</span></div>        
+<span class="card-id-badge" aria-label="卡片编号 home_market_leaders">ID: home_market_leaders</span>    </div>
+        <div class="table-wrapper">
+        <table id="leaderTable">
+            <thead>
+                <tr>
+                    <th>标的</th>
+                    <th>类别</th>
+                    <th class="num">平均领先(天)</th>
+                </tr>
+            </thead>
+            <tbody id="leaderBody"><tr><td colspan="3" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+        </table>
+    </div>
+<div class="card-note">    正数表示该标的在参与比较的资产中平均领先，负数表示平均滞后；结果依赖窗口和可用日线样本。
+</div>
+</section>    </div>
+
+    <div class="content-grid content-grid--balanced">
+<section class="card" id="home_market_etf_net_flow">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">💧</span>ETF 资金净流入</div>
+<div class="header-meta"><span id="flowMeta">-</span></div>        
+<span class="card-id-badge" aria-label="卡片编号 home_market_etf_net_flow">ID: home_market_etf_net_flow</span>    </div>
+        <div class="chart-container-sm" id="flowChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+<div class="card-note">    净流入估算值 = 份额变化 × 单位净值；份额披露存在时间滞后，估算值并非实时资金流或成交额。
+</div>
+</section>
+<section class="card" id="home_market_etf_tag_comparison">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🛡️</span>汪汪队 ETF 维度对比</div>
+<div class="header-meta"><span id="themeCompareMeta">-</span></div>        
+<span class="card-id-badge" aria-label="卡片编号 home_market_etf_tag_comparison">ID: home_market_etf_tag_comparison</span>    </div>
+        <div class="chart-container-sm" id="themeCompareChart"><div class="loading-overlay"><div class="spinner"></div>加载中...</div></div>
+<div class="card-note">    按 ETF 持有人识别结果分组，比较汪汪队标签 ETF 与其他 ETF 的份额走势；标签是分析维度，不影响市场 ETF 收录范围。
+</div>
+</section>    </div>
+
+    <div class="market-rotation">
+<section class="card" id="home_market_asset_rotation">
+    <div class="card-header">
+        <div class="card-title"><span class="emoji">🔄</span>资产类别轮动</div>
+<div class="header-meta"><span id="rotMeta">-</span></div>        
+<span class="card-id-badge" aria-label="卡片编号 home_market_asset_rotation">ID: home_market_asset_rotation</span>    </div>
+    <div class="table-wrapper">
+    <table id="rotTable">
+        <thead>
+            <tr>
+                <th>资产类别</th>
+                <th class="num">标的数</th>
+                <th class="num">区间涨跌</th>
+                <th class="num">区间净流入</th>
+            </tr>
+        </thead>
+        <tbody id="rotBody"><tr><td colspan="4" class="no-data"><div class="loading-overlay"><div class="spinner"></div>加载数据...</div></td></tr></tbody>
+    </table>
+</div>
+<div class="card-note">按所选窗口汇总各类别标的区间动量与可用资金流；没有份额数据或成交额字段的类别可能不显示净流入。
+</div>
+</section>    </div>
+</section>
+</main>
 
 <footer class="site-footer">
     <span>数据来源：上交所 · 深交所 · 东方财富</span>
@@ -176,5 +366,7 @@
     <span>仅供研究参考，不构成投资建议</span>
 </footer></div>
 
-<script src="/js/home.js"></script></body>
+<script src="/js/home.js"></script>
+<script src="/js/market.js"></script>
+</body>
 </html>

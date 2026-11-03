@@ -161,16 +161,22 @@
 
         if (prevBtn) prevBtn.addEventListener('click', function () {
             offset = Math.max(0, offset - pageSize);
+            update();
             if (onPageChange) onPageChange(offset);
         });
         if (nextBtn) nextBtn.addEventListener('click', function () {
-            offset += pageSize;
+            offset = Math.min(offset + pageSize, Math.max(0, (pagesCount() - 1) * pageSize));
+            update();
             if (onPageChange) onPageChange(offset);
         });
 
+        function pagesCount() {
+            return Math.max(1, Math.ceil(total / pageSize));
+        }
+
         function update() {
             var page = Math.floor(offset / pageSize) + 1;
-            var pages = Math.max(1, Math.ceil(total / pageSize));
+            var pages = pagesCount();
             if (pageInfo) pageInfo.textContent = page + ' / ' + pages;
             if (prevBtn) prevBtn.disabled = offset === 0;
             if (nextBtn) nextBtn.disabled = offset + pageSize >= total;
